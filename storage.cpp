@@ -1,0 +1,54 @@
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include "storage.h"
+
+using namespace std;
+
+Storage::Storage(const char* file) {
+    filename = file;
+}
+
+void Storage::load() {
+    ifstream in(filename, ios::binary);
+    if (!in.is_open()) {
+        cout << "No database file found. Starting fresh.\n";
+        return;
+    }
+
+    Record r;
+    while (in.read((char*)&r, sizeof(Record))) {
+        records.push_back(r);
+    }
+
+    in.close();
+}
+
+void Storage::save() {
+    ofstream out(filename, ios::binary | ios::trunc);
+
+    for (auto &r : records) {
+        out.write((char*)&r, sizeof(Record));
+    }
+
+    out.close();
+}
+
+void Storage::insertRecord(int id, const char* name, int age) {
+    Record r;
+    r.id = id;
+    strncpy(r.name, name, 49);
+    r.name[49] = '\0';
+    r.age = age;
+
+    records.push_back(r);
+    save();
+
+    cout << "Inserted.\n";
+}
+
+void Storage::selectAll() {
+    for (auto &r : records) {
+        cout << r.id << " " << r.name << " " << r.age << endl;
+    }
+}
