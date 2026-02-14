@@ -47,8 +47,30 @@ void Storage::insertRecord(int id, const char* name, int age) {
     cout << "Inserted.\n";
 }
 
+
 void Storage::selectAll() {
     for (auto &r : records) {
         cout << r.id << " " << r.name << " " << r.age << endl;
     }
+}
+
+bool Storage::deleteRecord(int id) {
+    for (int i = 0; i < records.size(); i++) {
+        if (records[i].id == id) {
+            records.erase(records.begin() + i);
+            saveAll();
+            return true;
+        }
+    }
+    return false;
+}
+
+void Storage::saveAll() {
+    std::ofstream file(filename, std::ios::binary | std::ios::trunc);
+
+    for (auto &r : records) {
+        file.write((char*)&r, sizeof(Record));
+    }
+
+    file.close();
 }

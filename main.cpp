@@ -27,6 +27,13 @@ int main() {
             cout << "Exiting...\n";
             break;
         }
+        else if(cmd.type == CMD_DELETE) {
+            if(db.deleteRecord(cmd.id))
+        cout << "Deleted.\n";
+            else
+        cout << "Record not found.\n";
+}
+
         else {
             cout << "Unknown command.\n";
         }

@@ -16,6 +16,11 @@ ParsedCommand parseCommand(const std::string& input) {
     else if (keyword == "select") {
         cmd.type = CMD_SELECT;
     }
+    else if (keyword == "delete") {
+    cmd.type = CMD_DELETE;
+    ss >> cmd.id;
+}
+
     else if (keyword == "exit") {
         cmd.type = CMD_EXIT;
     }

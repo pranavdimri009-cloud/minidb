@@ -7,7 +7,8 @@ enum CommandType {
     CMD_INSERT,
     CMD_SELECT,
     CMD_EXIT,
-    CMD_UNKNOWN
+    CMD_UNKNOWN,
+    CMD_DELETE
 };
 
 struct ParsedCommand {

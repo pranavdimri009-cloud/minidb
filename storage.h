@@ -17,6 +17,10 @@ public:
 
     void insertRecord(int id, const char* name, int age);
     void selectAll();
+
+    void saveAll();
+    bool deleteRecord(int id);
+
 };
 
 #endif
