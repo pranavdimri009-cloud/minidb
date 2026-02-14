@@ -19,7 +19,6 @@ int main() {
 
         if (cmd.type == CMD_INSERT) {
             db.insertRecord(cmd.id, cmd.name.c_str(), cmd.age);
-            cout << "Inserted.\n";
         }
 
         else if (cmd.type == CMD_SELECT_ALL) {

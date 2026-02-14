@@ -35,17 +35,28 @@ void Storage::save() {
 }
 
 void Storage::insertRecord(int id, const char* name, int age) {
-    Record r;
-    r.id = id;
-    strncpy(r.name, name, 49);
-    r.name[49] = '\0';
-    r.age = age;
 
-    records.push_back(r);
-    save();
+    // duplicate check
+    for (auto &r : records) {
+        if (r.id == id) {
+            return;   // already exists
+        }
+    }
 
-    cout << "Inserted.\n";
+    Record rec;
+    rec.id = id;
+    strcpy(rec.name, name);
+    rec.age = age;
+
+    records.push_back(rec);
+
+    ofstream file(filename, ios::binary | ios::app);
+    file.write((char*)&rec, sizeof(Record));
+    file.close();
+
+    return;
 }
+
 
 
 void Storage::selectAll() {
