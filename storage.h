@@ -21,6 +21,9 @@ public:
     void saveAll();
     bool deleteRecord(int id);
 
+    bool selectById(int id);
+    bool updateRecord(int id, const char* name, int age);
+
 };
 
 #endif

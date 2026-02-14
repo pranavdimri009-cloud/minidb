@@ -6,7 +6,7 @@
 using namespace std;
 
 int main() {
-    Storage db("database.bin");
+    Storage db("data.bin");
     db.load();
 
     string input;
@@ -15,27 +15,43 @@ int main() {
         cout << "db> ";
         getline(cin, input);
 
-        ParsedCommand cmd = parseCommand(input);
+        Command cmd = parseCommand(input);
 
         if (cmd.type == CMD_INSERT) {
             db.insertRecord(cmd.id, cmd.name.c_str(), cmd.age);
+            cout << "Inserted.\n";
         }
-        else if (cmd.type == CMD_SELECT) {
+
+        else if (cmd.type == CMD_SELECT_ALL) {
             db.selectAll();
         }
+
+        else if (cmd.type == CMD_SELECT_ONE) {
+            if (!db.selectById(cmd.id))
+                cout << "Record not found.\n";
+        }
+
+        else if (cmd.type == CMD_DELETE) {
+            if (db.deleteRecord(cmd.id))
+                cout << "Deleted.\n";
+            else
+                cout << "Record not found.\n";
+        }
+
+        else if (cmd.type == CMD_UPDATE) {
+            if (db.updateRecord(cmd.id, cmd.name.c_str(), cmd.age))
+                cout << "Updated.\n";
+            else
+                cout << "Record not found.\n";
+        }
+
         else if (cmd.type == CMD_EXIT) {
             cout << "Exiting...\n";
             break;
         }
-        else if(cmd.type == CMD_DELETE) {
-            if(db.deleteRecord(cmd.id))
-        cout << "Deleted.\n";
-            else
-        cout << "Record not found.\n";
-}
 
         else {
-            cout << "Unknown command.\n";
+            cout << "Invalid command.\n";
         }
     }
 

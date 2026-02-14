@@ -74,3 +74,25 @@ void Storage::saveAll() {
 
     file.close();
 }
+
+bool Storage::selectById(int id) {
+    for (auto &r : records) {
+        if (r.id == id) {
+            cout << r.id << " " << r.name << " " << r.age << endl;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Storage::updateRecord(int id, const char* name, int age) {
+    for (auto &r : records) {
+        if (r.id == id) {
+            strcpy(r.name, name);
+            r.age = age;
+            saveAll();
+            return true;
+        }
+    }
+    return false;
+}
