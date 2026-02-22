@@ -1,13 +1,18 @@
 #ifndef STORAGE_H
 #define STORAGE_H
 
+#include <unordered_map>
+
 #include <vector>
 #include "record.h"
 
 class Storage {
 private:
     std::vector<Record> records;
-    const char* filename;
+    std::unordered_map<int, int> indexMap; 
+    // id → position in vector
+
+    std::string filename;
 
 public:
     Storage(const char* file);
@@ -15,7 +20,7 @@ public:
     void load();
     void save();
 
-    void insertRecord(int id, const char* name, int age);
+    bool insertRecord(int id, const char* name, int age);
     void selectAll();
 
     void saveAll();
