@@ -10,18 +10,21 @@ Storage::Storage(const char* file) {
 }
 
 void Storage::load() {
-    ifstream in(filename, ios::binary);
-    if (!in.is_open()) {
-        cout << "No database file found. Starting fresh.\n";
-        return;
-    }
+    records.clear();
+    indexMap.clear();
+
+    ifstream file(filename, ios::binary);
 
     Record r;
-    while (in.read((char*)&r, sizeof(Record))) {
+    int position = 0;
+
+    while (file.read((char*)&r, sizeof(Record))) {
         records.push_back(r);
+        indexMap[r.id] = position;
+        position++;
     }
 
-    in.close();
+    file.close();
 }
 
 void Storage::save() {
@@ -34,27 +37,24 @@ void Storage::save() {
     out.close();
 }
 
-void Storage::insertRecord(int id, const char* name, int age) {
+bool Storage::insertRecord(int id, const char* name, int age) {
 
-    // duplicate check
-    for (auto &r : records) {
-        if (r.id == id) {
-            return;   // already exists
-        }
-    }
+    if(indexMap.find(id) != indexMap.end())
+        return false;   // duplicate
 
-    Record rec;
-    rec.id = id;
-    strcpy(rec.name, name);
-    rec.age = age;
+    Record r;
+    r.id = id;
+    strcpy(r.name, name);
+    r.age = age;
 
-    records.push_back(rec);
+    records.push_back(r);
+    indexMap[id] = records.size() - 1;
 
     ofstream file(filename, ios::binary | ios::app);
-    file.write((char*)&rec, sizeof(Record));
+    file.write((char*)&r, sizeof(Record));
     file.close();
 
-    return;
+    return true;
 }
 
 
@@ -66,14 +66,22 @@ void Storage::selectAll() {
 }
 
 bool Storage::deleteRecord(int id) {
-    for (int i = 0; i < records.size(); i++) {
-        if (records[i].id == id) {
-            records.erase(records.begin() + i);
-            saveAll();
-            return true;
-        }
-    }
-    return false;
+
+    if(indexMap.find(id) == indexMap.end())
+        return false;
+
+    int pos = indexMap[id];
+
+    records.erase(records.begin() + pos);
+
+    indexMap.erase(id);
+
+    // rebuild index positions
+    for(int i = 0; i < records.size(); i++)
+        indexMap[records[i].id] = i;
+
+    saveAll();
+    return true;
 }
 
 void Storage::saveAll() {
@@ -87,13 +95,15 @@ void Storage::saveAll() {
 }
 
 bool Storage::selectById(int id) {
-    for (auto &r : records) {
-        if (r.id == id) {
-            cout << r.id << " " << r.name << " " << r.age << endl;
-            return true;
-        }
-    }
-    return false;
+
+    if(indexMap.find(id) == indexMap.end())
+        return false;
+
+    int pos = indexMap[id];
+    Record &r = records[pos];
+
+    cout << r.id << " " << r.name << " " << r.age << endl;
+    return true;
 }
 
 bool Storage::updateRecord(int id, const char* name, int age) {
