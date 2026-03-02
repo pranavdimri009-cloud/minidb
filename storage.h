@@ -17,6 +17,7 @@ public:
     Storage(std::string tableName); 
 
     void setTable(std::string tableName);
+    void showTables();
 
 
     void load();

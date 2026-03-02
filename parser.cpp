@@ -38,6 +38,14 @@ Command parseCommand(const string& input) {
         cmd.type = CMD_DELETE;
         ss >> cmd.id;
     }
+    else if(keyword == "show") {
+    string next;
+    ss >> next;
+
+    if(next == "tables") {
+        cmd.type = CMD_SHOW_TABLES;
+    }
+}
     else if (keyword == "update") {
         cmd.type = CMD_UPDATE;
         ss >> cmd.id >> cmd.name >> cmd.age;
@@ -45,6 +53,7 @@ Command parseCommand(const string& input) {
     else if (keyword == "exit") {
         cmd.type = CMD_EXIT;
     }
+
 
     return cmd;
 }

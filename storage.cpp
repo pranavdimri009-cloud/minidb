@@ -101,6 +101,28 @@ void Storage::saveAll() {
 
     file.close();
 }
+void Storage::showTables() {
+
+    ifstream meta("schema.meta");
+
+    if(!meta) {
+        cout << "No tables found.\n";
+        return;
+    }
+
+    string tableName;
+
+    while(meta >> tableName) {
+
+        cout << tableName << endl;
+
+        // skip rest of schema line
+        string restOfLine;
+        getline(meta, restOfLine);
+    }
+
+    meta.close();
+}
 
 bool Storage::selectById(int id) {
 

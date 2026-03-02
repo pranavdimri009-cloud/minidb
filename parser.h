@@ -12,7 +12,8 @@ enum CommandType {
     CMD_CREATE,
     CMD_USE,
     CMD_EXIT,
-    CMD_INVALID
+    CMD_INVALID,
+    CMD_SHOW_TABLES
 };
 
 struct Command {

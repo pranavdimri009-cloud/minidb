@@ -70,7 +70,9 @@ int main() {
             else
                 cout << "Record not found.\n";
         }
-
+        else if(cmd.type == CMD_SHOW_TABLES) {
+        db.showTables();}
+                  
         else if(cmd.type == CMD_UPDATE) {
 
             if(db.updateRecord(cmd.id, cmd.name.c_str(), cmd.age))
