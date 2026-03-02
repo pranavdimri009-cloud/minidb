@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <sstream>
 #include "storage.h"
 
 using namespace std;
@@ -105,20 +106,22 @@ void Storage::showTables() {
 
     ifstream meta("schema.meta");
 
-    if(!meta) {
+    if (!meta) {
         cout << "No tables found.\n";
         return;
     }
 
-    string tableName;
+    string line;
 
-    while(meta >> tableName) {
+    while (getline(meta, line)) {
+
+        if (line.empty()) continue;
+
+        stringstream ss(line);
+        string tableName;
+        ss >> tableName;
 
         cout << tableName << endl;
-
-        // skip rest of schema line
-        string restOfLine;
-        getline(meta, restOfLine);
     }
 
     meta.close();

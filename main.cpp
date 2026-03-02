@@ -22,16 +22,16 @@ int main() {
 
         if(cmd.type == CMD_CREATE) {
 
-            ofstream file(cmd.tableName + ".tbl");
-            file.close();
+    // Create table file
+    ofstream file(cmd.tableName + ".tbl");
+    file.close();
 
-            // add to schema file
-            ofstream meta("schema.meta", ios::app);
-            meta << cmd.tableName << " id:int name:string age:int\n";
-            meta.close();
+    ofstream meta("schema.meta", ios::app);   
+    meta << cmd.tableName << " id:int name:string age:int\n";
+    meta.close();
 
-            cout << "Table created.\n";
-        }
+    cout << "Table created.\n";
+}
 
         else if(cmd.type == CMD_USE) {
 
