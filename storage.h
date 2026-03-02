@@ -2,20 +2,22 @@
 #define STORAGE_H
 
 #include <unordered_map>
-
+#include <string>
 #include <vector>
 #include "record.h"
 
 class Storage {
 private:
     std::vector<Record> records;
-    std::unordered_map<int, int> indexMap; 
-    // id → position in vector
-
+    std::unordered_map<int, int> indexMap; // id → position in vector
     std::string filename;
 
 public:
-    Storage(const char* file);
+    Storage();
+    Storage(std::string tableName); 
+
+    void setTable(std::string tableName);
+
 
     void load();
     void save();

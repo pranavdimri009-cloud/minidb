@@ -5,8 +5,16 @@
 
 using namespace std;
 
-Storage::Storage(const char* file) {
-    filename = file;
+Storage::Storage() {
+    filename = "";
+}
+
+Storage::Storage(string tableName) {
+    filename = tableName + ".tbl";
+}
+
+void Storage::setTable(string tableName) {
+    filename = tableName + ".tbl";
 }
 
 void Storage::load() {

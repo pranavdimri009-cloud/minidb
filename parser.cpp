@@ -24,6 +24,16 @@ Command parseCommand(const string& input) {
             cmd.type = CMD_SELECT_ALL;
         }
     }
+    else if (keyword == "create") {
+        string temp;
+        ss >> temp;  // table
+           ss >> cmd.tableName;
+        cmd.type = CMD_CREATE;
+    }
+    else if (keyword == "use") {
+        ss >> cmd.tableName;
+        cmd.type = CMD_USE;
+    }
     else if (keyword == "delete") {
         cmd.type = CMD_DELETE;
         ss >> cmd.id;

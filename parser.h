@@ -9,6 +9,8 @@ enum CommandType {
     CMD_SELECT_ONE,
     CMD_DELETE,
     CMD_UPDATE,
+    CMD_CREATE,
+    CMD_USE,
     CMD_EXIT,
     CMD_INVALID
 };
@@ -18,6 +20,7 @@ struct Command {
     int id;
     std::string name;
     int age;
+    std::string tableName;
 };
 
 Command parseCommand(const std::string& input);
